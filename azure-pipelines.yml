@@ -68,10 +68,10 @@ stages:
               DockerRepository: 'springmvchibernate'
 
           
-action: deploy
-manifests: |
+              action: deploy
+              manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
-             
-containers: |
+               
+              containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
