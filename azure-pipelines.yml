@@ -30,8 +30,8 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
-    steps:
+    vmImage: $(vmImageName)
+    step:
     task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
