@@ -32,7 +32,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-   - task: Maven@3
+    task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
     publishJUnitResults: false
@@ -41,25 +41,25 @@ stages:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-   - task: DockerCompose@0
-  inputs:
+    task: DockerCompose@0
+  input:
     containerregistrytype: 'Azure Container Registry'
     azureSubscription: 'Free Trial(2cef1980-3d37-427c-bc69-f9e8ba27ea13)'
     azureContainerRegistry: '{"loginServer":"dhananjayreg.azurecr.io", "id" : "/subscriptions/2cef1980-3d37-427c-bc69-f9e8ba27ea13/resourceGroups/dhananjayUbantu_group/providers/Microsoft.ContainerRegistry/registries/dhananjayreg"}'
     dockerComposeFile: '**/docker-compose.yml'
     qualifyImageNames: false
     action: 'Run a Docker Compose command'
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
+    task: Docker@2
+    displayName: Build and push an image to container registry
+    input:
         command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(azureSubscription)
         tags: |
           $(tag)
-    - upload: manifests
-      artifact: manifests
+        upload: manifests
+        artifact: manifests
 
 - stage: Deploy
   displayName: Deploy stage
