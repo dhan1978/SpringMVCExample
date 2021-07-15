@@ -11,7 +11,7 @@ variables:
   imageRepository: 'springmvchibernate'
   containerRegistry: '{"loginServer":"dhananjayreg.azurecr.io", "id" : "/subscriptions/2cef1980-3d37-427c-bc69-f9e8ba27ea13/resourceGroups/dhananjayUbantu_group/providers/Microsoft.ContainerRegistry/registries/dhananjayreg"}'
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: 'latest'
   #imagePullSecret: 'acr2705df2b-auth'
   password: '1hE/0UbG4oSmcRhg969hS=MHEphA5RpB'
   # Agent VM image name
