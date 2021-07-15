@@ -67,7 +67,8 @@ stages:
               DockerNamespace: 'dhananjayreg'
               DockerRepository: 'springmvchibernate'
               containerRegistry: $(containerRegistry)
-          
+              dockerRegistryServiceConnection: $(dockerRegistryServiceConnection
+              password: $(password)
               action: deploy
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
