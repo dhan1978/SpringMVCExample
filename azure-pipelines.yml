@@ -15,7 +15,7 @@ variables:
   #imagePullSecret: 'acr2705df2b-auth'
   password: '1hE/0UbG4oSmcRhg969hS=MHEphA5RpB'
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  vmImage: ubuntu-latest
   ResourceGroupName: 'dhananjayUbantu_group'
 
 
@@ -26,7 +26,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      vmImage: $(vmImage)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -53,7 +53,7 @@ stages:
   - deployment: Deploy
     displayName: Deploy
     pool:
-      vmImage: $(vmImageName)
+      vmImage: $(vmImage)
     environment: 'WEBAppdhananjay'
     strategy:
       runOnce:
