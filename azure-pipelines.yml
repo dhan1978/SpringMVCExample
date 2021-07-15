@@ -34,6 +34,12 @@ stages:
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
+        ResourceGroupName: 'dhananjayUbantu_group'              
+        DockerNamespace: 'dhananjayreg'
+        DockerRepository: 'springmvchibernate'
+        containerRegistry: $(containerRegistry)
+        dockerRegistryServiceConnection: $(dockerRegistryServiceConnection
+        password: $(password)
         tags: |
           $(tag)
     - upload: manifests
