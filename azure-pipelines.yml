@@ -4,25 +4,75 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- slave
 
-pool:
-  vmImage: ubuntu-latest
+resources:
+- repo: self
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-- task: Maven@3
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '2cef1980-3d37-427c-bc69-f9e8ba27ea13'
+  imageRepository: 'springmvchibernate'
+  containerRegistry: 'dhananjayreg.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: 'acr2705df2b-auth'
+  password: '1hE/0UbG4oSmcRhg969hS=MHEphA5RpB'
+
+  # Agent VM image name
+   vmImage: "ubuntu-latest"
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+   - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     mavenVersionOption: 'Default'
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+   - task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Free Trial(2cef1980-3d37-427c-bc69-f9e8ba27ea13)'
+    azureContainerRegistry: '{"loginServer":"dhananjayreg.azurecr.io", "id" : "/subscriptions/2cef1980-3d37-427c-bc69-f9e8ba27ea13/resourceGroups/dhananjayUbantu_group/providers/Microsoft.ContainerRegistry/registries/dhananjayreg"}'
+    dockerComposeFile: '**/docker-compose.yml'
+    qualifyImageNames: false
+    action: 'Run a Docker Compose command'
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(azureSubscription)
+        tags: |
+          $(tag)
+    - upload: manifests
+      artifact: manifests
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial(2cef1980-3d37-427c-bc69-f9e8ba27ea13)'
+    appType: 'webAppContainer'
+    WebAppName: 'WEBAppdhananjay'
+    deployToSlotOrASE: true
+    ResourceGroupName: 'dhananjayUbantu_group'
+    SlotName: 'production'
+    DockerNamespace: 'dhananjayreg'
+    DockerRepository: 'springmvchibernate'
