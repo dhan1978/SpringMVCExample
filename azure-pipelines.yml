@@ -33,7 +33,6 @@ stages:
         command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
         ResourceGroupName: 'dhananjayUbantu_group'              
         DockerNamespace: 'dhananjayreg'
         DockerRepository: 'springmvchibernate'
