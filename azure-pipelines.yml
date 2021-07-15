@@ -2,7 +2,7 @@ trigger:
 - slave
 
 resources:
-- repo: self
+- repo: SpringMVCExample:latest
 
 variables:
 
