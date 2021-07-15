@@ -57,15 +57,15 @@ stages:
             displayName: Create imagePullSecret
             inputs:
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-			        ConnectionType: 'AzureRM'
-			        azureSubscription: 'Free Trial(2cef1980-3d37-427c-bc69-f9e8ba27ea13)'
-			        appType: 'webAppContainer'
-			        WebAppName: 'WEBAppdhananjay'
-			        deployToSlotOrASE: true
-			        ResourceGroupName: 'dhananjayUbantu_group'
-			        SlotName: 'production'
-			        DockerNamespace: 'dhananjayreg'
-			        DockerRepository: 'springmvchibernate'
+			  ConnectionType: 'AzureRM'
+			  azureSubscription: 'Free Trial(2cef1980-3d37-427c-bc69-f9e8ba27ea13)'
+			  appType: 'webAppContainer'
+			  WebAppName: 'WEBAppdhananjay'
+			  deployToSlotOrASE: true
+			  ResourceGroupName: 'dhananjayUbantu_group'
+			  SlotName: 'production'
+			  DockerNamespace: 'dhananjayreg'
+			  DockerRepository: 'springmvchibernate'
 
           
 action: deploy
