@@ -30,7 +30,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-    vmImage: $(vmImageName)
+    vmImage: $(vmImage)
     step:
     task: Maven@3
   inputs:
